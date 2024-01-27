@@ -2,21 +2,20 @@
 #include "raylib.h"
 #include "raymath.h"
 
-Character::Character()
+Character::Character(int windWidth, int windHeight)
 {
     _width = _character_texture.width / (float)_maxFrames;
     _height = _character_texture.height;
-}
 
-void Character::SetCharacterPos(int winWidth, int winHeight)
-{
-    _characterPos = {
-        (float)winWidth / 2.0f - _characterScaleMultiplier * (0.5f * _width),
-        (float)winHeight / 2.0f - _characterScaleMultiplier * (0.5f * _height)};
+    _characterScreenPos = {
+        static_cast<float>(windWidth) / 2.0f - _characterScaleMultiplier * (0.5f * _width),
+        static_cast<float>(windHeight) / 2.0f - _characterScaleMultiplier * (0.5f * _height)};
 }
 
 void Character::Tick(float delatime)
 {
+    _characterPosAtLastFrame = _characterWorldPos;
+
     // Movement
     Vector2 direction{};
     if (IsKeyDown(KEY_A))
@@ -51,9 +50,25 @@ void Character::Tick(float delatime)
     // Draw the Character
     Rectangle source{_frame * _width, 0.f, _rightLeft * _width, _height};
     Rectangle destination{
-        _characterPos.x,
-        _characterPos.y,
+        _characterScreenPos.x,
+        _characterScreenPos.y,
         _characterScaleMultiplier * _width,
         _characterScaleMultiplier * _height};
     DrawTexturePro(_character_texture, source, destination, Vector2{}, 0.f, WHITE);
+}
+
+void Character::UndoMovement()
+{
+    _characterWorldPos = _characterPosAtLastFrame;
+}
+
+Rectangle Character::GetCollisionRec()
+{
+
+    return Rectangle{
+        _characterScreenPos.x,
+        _characterScreenPos.y,
+        _width * _characterScaleMultiplier,
+        _height * _characterScaleMultiplier
+    };
 }
