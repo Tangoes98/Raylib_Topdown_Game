@@ -2,6 +2,7 @@
 #include "raymath.h"
 #include "Character.h"
 #include "Prop.h"
+#include "Enemy.h"
 
 int main()
 {
@@ -18,13 +19,17 @@ int main()
 
     Character _knight{_windowWidth, _windowHeight};
 
-    // Prop _rock{Vector2{0.f, 0.f}, LoadTexture("Asset/TileMap/Rock.png")};
-
+    // Create props
     Prop _props[2]{
         Prop{Vector2{500.f, 300.f}, LoadTexture("Asset/TileMap/Rock.png")},
         Prop{Vector2{400.f, 500.f}, LoadTexture("Asset/TileMap/Log.png")},
-
     };
+
+    // Create enemy
+    Enemy _goblin{
+        Vector2{},
+        LoadTexture("Asset/CharacterSprite/goblin_idle_spritesheet.png"),
+        LoadTexture("Asset/CharacterSprite/goblin_run_spritesheet.png")};
 
     SetTargetFPS(60);
 
@@ -66,6 +71,8 @@ int main()
                 _knight.UndoMovement();
             }
         }
+
+        _goblin.Tick(GetFrameTime());
 
         EndDrawing();
     }

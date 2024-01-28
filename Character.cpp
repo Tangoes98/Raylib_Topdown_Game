@@ -57,18 +57,18 @@ void Character::Tick(float delatime)
     DrawTexturePro(_character_texture, source, destination, Vector2{}, 0.f, WHITE);
 }
 
-void Character::UndoMovement()
-{
-    _characterWorldPos = _characterPosAtLastFrame;
-}
+// void Character::UndoMovement()
+// {
+//     _characterWorldPos = _characterPosAtLastFrame;
+// }
 
-Rectangle Character::GetCollisionRec()
-{
+// Rectangle Character::GetCollisionRec()
+// {
 
-    return Rectangle{
-        _characterScreenPos.x,
-        _characterScreenPos.y,
-        _width * _characterScaleMultiplier,
-        _height * _characterScaleMultiplier
-    };
-}
+//     return Rectangle{
+//         _characterScreenPos.x,
+//         _characterScreenPos.y,
+//         _width * _characterScaleMultiplier,
+//         _height * _characterScaleMultiplier
+//     };
+// }
