@@ -11,12 +11,13 @@ public:
     Vector2 GetWorldPos() { return _characterWorldPos; }
     void UndoMovement();
     Rectangle GetCollisionRec();
+    virtual Vector2 GetScreenPosition() = 0;
+    virtual void Tick(float deltaTime);
 
 protected:
     Texture2D _character_texture{LoadTexture("Asset/CharacterSprite/knight_idle_spritesheet.png")};
     Texture2D _character_idle{LoadTexture("Asset/CharacterSprite/knight_idle_spritesheet.png")};
     Texture2D _character_run{LoadTexture("Asset/CharacterSprite/knight_run_spritesheet.png")};
-    Vector2 _characterScreenPos{0.f, 0.f};
     Vector2 _characterWorldPos{0.f, 0.f};
     Vector2 _characterPosAtLastFrame{0.f, 0.f};
     float _characterScaleMultiplier = 4.0f;
@@ -32,6 +33,7 @@ protected:
     float _speed{4.f};
     float _width{};
     float _height{};
+    Vector2 _velocity{};
 
 private:
 };

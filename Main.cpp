@@ -31,6 +31,14 @@ int main()
         LoadTexture("Asset/CharacterSprite/goblin_idle_spritesheet.png"),
         LoadTexture("Asset/CharacterSprite/goblin_run_spritesheet.png")};
 
+    _goblin.SetTarget(&_knight);
+
+
+
+
+
+    
+
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
