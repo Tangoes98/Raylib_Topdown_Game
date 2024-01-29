@@ -4,6 +4,7 @@
 #include "Prop.h"
 #include "Enemy.h"
 #include <string>
+#include "Score.h"
 
 int main()
 {
@@ -41,9 +42,12 @@ int main()
         &_goblin,
         &_slime};
 
+    Score _score{};
+
     for (auto enemy : _enemies)
     {
         enemy->SetTarget(&_knight);
+        enemy->SetScore(&_score);
     }
 
     SetTargetFPS(60);
@@ -78,6 +82,10 @@ int main()
             std::string playerHealth = "Health: ";
             playerHealth.append(std::to_string(_knight.GetHealth()), 0, 5);
             DrawText(playerHealth.c_str(), 55.f, 45.f, 40, RED);
+
+            std::string playerScore = "Score: ";
+            playerScore.append(std::to_string(_score.GetScore()));
+            DrawText(playerScore.c_str(), 55.f, 300.f, 40, RED);
         }
 
         // DrawText(TextFormat("MAP POS: %02f", _mapPos.x), 0, 0, 30, RED);

@@ -17,6 +17,7 @@ void Enemy::Tick(float deltatime)
 {
     if (!GetAlive())
     {
+        m_score->EarnScore();
         _characterWorldPos = Vector2{static_cast<float>(GetRandomValue(100, 800)), static_cast<float>(GetRandomValue(100, 800))};
         SetAlive(true);
         return;
