@@ -12,4 +12,5 @@ public:
 
 private:
     Character *m_target;
+    float m_damagePerSecOverlapingPlayer{50.f};
 };

@@ -16,8 +16,19 @@ Vector2 Character::GetScreenPosition()
         static_cast<float>(m_windowHeight) / 2.0f - _characterScaleMultiplier * (0.5f * _height)};
 }
 
+void Character::TakeDamage(float damage)
+{
+    m_health -= damage;
+    if (m_health <= 0.f)
+        SetAlive(false);
+        
+}
+
 void Character::Tick(float deltatime)
 {
+    if (!GetAlive())
+        return;
+
     BaseCharacter::Tick(deltatime);
 
     // Movement
@@ -43,7 +54,9 @@ void Character::Tick(float deltatime)
             GetScreenPosition().y + offset.y - m_weapon.height * _characterScaleMultiplier,
             m_weapon.width * _characterScaleMultiplier,
             m_weapon.height * _characterScaleMultiplier};
-        rotation = 35.f;
+
+        rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? 35.f : 0.f;
+        // rotation = 35.f;
     }
     else // facing left
     {
@@ -54,7 +67,9 @@ void Character::Tick(float deltatime)
             GetScreenPosition().y + offset.y - m_weapon.height * _characterScaleMultiplier,
             m_weapon.width * _characterScaleMultiplier,
             m_weapon.height * _characterScaleMultiplier};
-        rotation = -35.f;
+
+        rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? -35.f : 0.f;
+        // rotation = -35.f;
     }
 
     //* Draw Sword

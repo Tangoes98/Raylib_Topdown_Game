@@ -9,14 +9,22 @@ Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex)
     _character_run = run_tex;
     _width = _character_texture.width / (float)_maxFrames;
     _height = _character_texture.height;
-    _speed = 3.f;
+    _speed = 2.f;
 }
 
 void Enemy::Tick(float deltatime)
 {
-    //BaseCharacter::Tick(deltatime);
+    if (!GetAlive())
+        return;
+
+    BaseCharacter::Tick(deltatime);
 
     _velocity = Vector2Subtract(m_target->GetScreenPosition(), GetScreenPosition());
+
+    if (CheckCollisionRecs(m_target->GetCollisionRec(), GetCollisionRec()))
+    {
+        m_target->TakeDamage(m_damagePerSecOverlapingPlayer * deltatime);
+    }
 }
 
 Vector2 Enemy::GetScreenPosition()

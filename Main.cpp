@@ -3,6 +3,7 @@
 #include "Character.h"
 #include "Prop.h"
 #include "Enemy.h"
+#include <string>
 
 int main()
 {
@@ -33,12 +34,6 @@ int main()
 
     _goblin.SetTarget(&_knight);
 
-
-
-
-
-    
-
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
@@ -55,6 +50,20 @@ int main()
         for (auto prop : _props)
         {
             prop.Render(_knight.GetWorldPos());
+        }
+
+        // Draw health
+        if (!_knight.GetAlive()) // Player is dead
+        {
+            DrawText("GameOver!", 55.f, 45.f, 40, RED);
+            EndDrawing();
+            continue;
+        }
+        else // player is alive
+        {
+            std::string playerHealth = "Health: ";
+            playerHealth.append(std::to_string(_knight.GetHealth()), 0, 5);
+            DrawText(playerHealth.c_str(), 55.f, 45.f, 40, GREEN);
         }
 
         // DrawText(TextFormat("MAP POS: %02f", _mapPos.x), 0, 0, 30, RED);
@@ -81,6 +90,12 @@ int main()
         }
 
         _goblin.Tick(GetFrameTime());
+
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        {
+            if (CheckCollisionRecs(_goblin.GetCollisionRec(), _knight.GetWeaponCollisionRect()))
+                _goblin.SetAlive(false);
+        }
 
         EndDrawing();
     }
