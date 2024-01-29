@@ -21,7 +21,7 @@ void Character::TakeDamage(float damage)
     m_health -= damage;
     if (m_health <= 0.f)
         SetAlive(false);
-        
+
 }
 
 void Character::Tick(float deltatime)
@@ -77,10 +77,10 @@ void Character::Tick(float deltatime)
     Rectangle destination{GetScreenPosition().x + offset.x, GetScreenPosition().y + offset.y, m_weapon.width * _characterScaleMultiplier, m_weapon.height * _characterScaleMultiplier};
     DrawTexturePro(m_weapon, source, destination, origin, rotation, WHITE);
 
-    DrawRectangleLines(
-        m_weaponCollisionRect.x,
-        m_weaponCollisionRect.y,
-        m_weaponCollisionRect.width,
-        m_weaponCollisionRect.height,
-        RED);
+    // DrawRectangleLines(
+    //     m_weaponCollisionRect.x,
+    //     m_weaponCollisionRect.y,
+    //     m_weaponCollisionRect.width,
+    //     m_weaponCollisionRect.height,
+    //     RED);
 }

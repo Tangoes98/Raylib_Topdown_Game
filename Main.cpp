@@ -28,13 +28,27 @@ int main()
 
     // Create enemy
     Enemy _goblin{
-        Vector2{},
+        Vector2{800.f, 300.f},
         LoadTexture("Asset/CharacterSprite/goblin_idle_spritesheet.png"),
         LoadTexture("Asset/CharacterSprite/goblin_run_spritesheet.png")};
 
-    _goblin.SetTarget(&_knight);
+    Enemy _slime{
+        Vector2{500.f, 700.f},
+        LoadTexture("Asset/CharacterSprite/slime_idle_spritesheet.png"),
+        LoadTexture("Asset/CharacterSprite/slime_run_spritesheet.png")};
+
+    Enemy *_enemies[]{
+        &_goblin,
+        &_slime};
+
+    for (auto enemy : _enemies)
+    {
+        enemy->SetTarget(&_knight);
+    }
 
     SetTargetFPS(60);
+
+    //* ========== UPDATE STARTS HERE ==========
 
     while (!WindowShouldClose())
     {
@@ -63,7 +77,7 @@ int main()
         {
             std::string playerHealth = "Health: ";
             playerHealth.append(std::to_string(_knight.GetHealth()), 0, 5);
-            DrawText(playerHealth.c_str(), 55.f, 45.f, 40, GREEN);
+            DrawText(playerHealth.c_str(), 55.f, 45.f, 40, RED);
         }
 
         // DrawText(TextFormat("MAP POS: %02f", _mapPos.x), 0, 0, 30, RED);
@@ -89,12 +103,19 @@ int main()
             }
         }
 
-        _goblin.Tick(GetFrameTime());
+        // Update enemy actions
+        for (auto enemy : _enemies)
+        {
+            enemy->Tick(GetFrameTime());
+        }
 
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
-            if (CheckCollisionRecs(_goblin.GetCollisionRec(), _knight.GetWeaponCollisionRect()))
-                _goblin.SetAlive(false);
+            for (auto enemy : _enemies)
+            {
+                if (CheckCollisionRecs(enemy->GetCollisionRec(), _knight.GetWeaponCollisionRect()))
+                    enemy->SetAlive(false);
+            }
         }
 
         EndDrawing();

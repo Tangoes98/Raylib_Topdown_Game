@@ -4,6 +4,7 @@
 Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex)
 {
     _characterWorldPos = pos;
+    m_originalPosition = pos;
     _character_texture = idle_tex;
     _character_idle = idle_tex;
     _character_run = run_tex;
@@ -15,11 +16,18 @@ Enemy::Enemy(Vector2 pos, Texture2D idle_tex, Texture2D run_tex)
 void Enemy::Tick(float deltatime)
 {
     if (!GetAlive())
+    {
+        _characterWorldPos = Vector2{static_cast<float>(GetRandomValue(100, 800)), static_cast<float>(GetRandomValue(100, 800))};
+        SetAlive(true);
         return;
+    }
 
     BaseCharacter::Tick(deltatime);
 
     _velocity = Vector2Subtract(m_target->GetScreenPosition(), GetScreenPosition());
+
+    if (Vector2Length(_velocity) < m_radius)
+        _velocity = {};
 
     if (CheckCollisionRecs(m_target->GetCollisionRec(), GetCollisionRec()))
     {

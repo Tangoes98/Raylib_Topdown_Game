@@ -13,4 +13,6 @@ public:
 private:
     Character *m_target;
     float m_damagePerSecOverlapingPlayer{50.f};
+    float m_radius{20.f};
+    Vector2 m_originalPosition{};
 };
